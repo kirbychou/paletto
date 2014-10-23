@@ -3,8 +3,8 @@
 var PalettoTestCase = TestCase("PalettoTestCase");
 
 PalettoTestCase.prototype.testStory1 = function () {
-    var Engine = new Engine();
-    assertEquals(Engine.check_length_board(),36);
-    assertNotEqual(Engine.initialisation_board(),null);
+    var test = new Engine();
+    assertEquals(test.check_length_board(),36);
+    assertEquals(test.initialisation_board(),0);
 
 };
