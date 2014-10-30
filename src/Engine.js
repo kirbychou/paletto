@@ -71,9 +71,9 @@ var Engine = function () {
                 player2[piece_player2]= piece;
                 piece_player2 ++;
             }
-         //   this.add_corner(line, column);
-            this.remove_corner(line, column);
-
+            if(this.remove_corner(line, column) == 0){
+                this.add_corner(line, column);
+            }
         }
         return done;
     };
@@ -156,55 +156,98 @@ var Engine = function () {
         return column;
     };
     this.remove_corner = function(line, column){
-        column = this.letter(column);
-        var nb =0;
+        var remove = 0;
+        var nb;
         var temp;
-        while(nb < corner.length) {
-            var popped = corner.pop();
-             temp = column;
-             temp = temp + (line + 1);
-           // alert("temp " + temp + "popped" + popped);
-            if (popped != temp) {
-                corner.unshift(popped);
+        var popped;
+        if(line !=5 && line != 0 ) {
+            if (this.neighbor(line, column) == 1) {
+                if (this.neighbor(line, column)) {
+                    remove = 1;
+                    column = this.letter(column);
+                     nb = 0;
+                    while (nb < corner.length) {
+                         popped = corner.pop();
+                        temp = column;
+                        temp = temp + (line + 1);
+                        // alert("temp " + temp + "popped" + popped);
+                        if (popped != temp) {
+                            corner.unshift(popped);
+                        }
+                        nb++;
+                    }
+                }
             }
-            nb++;
+        }else {
+            column = this.letter(column);
+            nb = 0;
+            while (nb < corner.length) {
+                popped = corner.pop();
+                temp = column;
+                temp = temp + (line + 1);
+                // alert("temp " + temp + "popped" + popped);
+                if (popped != temp) {
+                    corner.unshift(popped);
+                }
+                nb++;
+            }
         }
+        return remove;
     };
     this.insertion= function(l, col , temp){
         if(board[l][col] != -1) {
             corner.unshift(temp);
         }
     };
+    this.neighbor= function(line, column){
+        var nb_neighbor = 0;
+        if(board[line - 1][column] != -1){
+            nb_neighbor ++ ;
+        }
+        if(board[line + 1][column] != -1){
+            nb_neighbor++;
+        }
+        if(board[line][column + 1] != -1){
+            nb_neighbor++;
+        }
+        if(board[line][column - 1] != -1){
+            nb_neighbor++;
+        }
+        if(nb_neighbor >= 3){
+            return 1;
+        }
+        return 0;
+    };
     this.add_corner= function(line, column){
         var col;
         var l;
         var temp;
         if(line !=5 && line != 0 ){
-            if(column != 0 && column != 5){
-                col = this.letter(column -1);
-                l =line +1 ;
-                 temp = col;
-                 temp = temp + l;
-                this.insertion(line,column,temp);
-                col =  this.letter(column+1);
-                l = line +1 ;
-                 temp = col;
-                 temp = temp + l ;
-                this.insertion(line,column,temp);
+                if (column != 0 && column != 5) {
+                    col = this.letter(column - 1);
+                    l = line + 1;
+                    temp = col;
+                    temp = temp + l;
+                    this.insertion(line, column, temp);
+                    col = this.letter(column + 1);
+                    l = line + 1;
+                    temp = col;
+                    temp = temp + l;
+                    this.insertion(line, column, temp);
 
-                col = this.letter(column);
-                l = line + 2;
-                 temp = col;
-                 temp = temp + l;
-                this.insertion(line,column,temp);
+                    col = this.letter(column);
+                    l = line + 2;
+                    temp = col;
+                    temp = temp + l;
+                    this.insertion(line, column, temp);
 
-                col = this.letter(column);
-                l = line;
-                 temp = col;
-                 temp = temp + l;
-                this.insertion(line,column,temp);
+                    col = this.letter(column);
+                    l = line;
+                    temp = col;
+                    temp = temp + l;
+                    this.insertion(line, column, temp);
 
-            }
+                }
         }else if(line ==0){
             if(column ==0 ){
                 col = this.letter(column+1);
