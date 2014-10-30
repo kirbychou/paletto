@@ -15,25 +15,54 @@ Engine = function () {
         player1[line] = new Array(36);
         player2[line] = new Array(36);
     }
-    var player = 1;
-    var piece_player1 =0;
-    var piece_player2 =0;
+    var player;
+    var piece_player1;
+    var piece_player2;
 
     this.get_player = function(){
         return player;
     };
 
+    this.initialisation = function(){
+       this.initialisation_player();
+        this.initialisation_board();
+    };
+    this.initialisation_player = function(){
+        player = 1;
+        piece_player1 = 0;
+        piece_player2 = 0;
+    };
+
     this.code_ascii = function (line) {
         return line.charCodeAt(0) - 65;
+    };
+    this.piece_number_player = function(player){
+        if(player == 1){
+            return piece_player1;
+        }else if(player == 2){
+            return piece_player2;
+        }
+        return 0;
+    };
+    this.get_piece_tray = function(){
+        var total = 0 ;
+        for(line=0; line<6; line = line +1){
+            for(column=0; column <6; column = column +1){
+                if( board[line][column] != -1){
+                    total ++;
+                }
+            }
+        }
+        return total;
     };
 
     this.remove_piece= function (line, column, player){
         var done = false;
         line = this.code_ascii(line);
-        if(board[line][column] != -1 ){
+        if(board[line][column -1] != -1 ){
             done = true;
-            var piece = board[line][column];
-            board[line][column] = -1;
+            var piece = board[line][column -1];
+            board[line][column -1] = -1;
             if(player == 1){
                 player1[piece_player1]= piece;
                 piece_player1 ++;
@@ -65,7 +94,7 @@ Engine = function () {
         board[1][4] ="Yellow";
         board[1][5] ="Blue";
 
-        board[2][0] ="Blue";
+        board[2][0] = "Blue";
         board[2][1] ="Yellow";
         board[2][2] = "Blue";
         board[2][3] = "White";
@@ -92,14 +121,14 @@ Engine = function () {
         board[5][3] = "Red";
         board[5][4] = "Green";
         board[5][5] = "Black";
+    };
 
-
-
-        var  juxtaposition =0;
+    this.juxtaposition = function() {
+        var juxtaposition = 0;
 
         var line = 1;
         do {
-            for(column =1; column< board.length-2; column++) {
+            for (column = 1; column < board.length - 2; column++) {
                 if ((board[line][column] == board[line + 1][column])
                     || (board[line][column] == board[line - 1][column])
                     || (board[line][column] == board[line][column + 1])
@@ -107,9 +136,9 @@ Engine = function () {
                     juxtaposition = 1;
                 }
             }
-            line = line +1;
+            line = line + 1;
 
-        } while (line <5);
+        } while (line < 5);
         return juxtaposition;
     };
 // public methods
