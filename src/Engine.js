@@ -2,18 +2,15 @@ var Engine = function () {
 
 // private attributes and methods
     var board = new Array(6);
-    var player1 = new Array(36);
-    var player2 = new Array(36);
+    var player1 = new Array(0);
+    var player2 = new Array(0);
     var corner  = new Array(0);
     var corner_color = new Array(0);
     var line, column;
     for (line = 0; line < 6; line = line + 1) {
         board[line] = new Array(6);
     }
-    for(line = 0; line < 36; line = line +1){
-        player1[line] = new Array(36);
-        player2[line] = new Array(36);
-    }
+
     var player;
     var piece_player1;
     var piece_player2;
@@ -64,19 +61,16 @@ var Engine = function () {
             var piece = board[line-1][column];
             board[line-1][column] = -1;
             if(player == 1){
-                player1[piece_player1]= piece;
+                player1.unshift(piece);
                 piece_player1 ++;
 
             }else{
-                player2[piece_player2]= piece;
+                player2.unshift(piece);
                 piece_player2 ++;
             }
-            if(this.remove_corner(line, column) == 0){
-                this.add_corner(line, column);
+            if(this.remove_corner(line-1, column) == 0){
+                this.add_corner(line-1, column);
             }
-         //   this.add_corner(line, column);
-         //   this.remove_corner(line, column);
-
         }
         return done;
     };
@@ -376,6 +370,72 @@ var Engine = function () {
       //  alert(color);
         return color; // retourne toutes les couleurs possibles.
     };
-// public methods
 
+    this.win = function(){
+        if(this.get_piece_tray()== 0){
+            return player;
+        }else{
+            var size;
+            if(player1.length > player2.length){
+                size = player1.length;
+            }else{
+                size = player2.length;
+            }
+            var j1_black =0, j1_yellow =0, j1_green =0, j1_blue =0, j1_red =0, j1_white =0;
+            var j2_black =0, j2_yellow =0, j2_green =0, j2_blue =0, j2_red =0, j2_white =0;
+            var nb = 0;
+            var popped, popped1;
+            while(nb < size){
+                popped = player1.pop();
+                popped1 = player2.pop();
+
+                if(popped == "Yellow"){
+                    j1_yellow ++;
+                }else if(popped == "Black"){
+                    j1_black ++;
+                }else if(popped == "Red"){
+                    j1_red ++;
+                }else if(popped == "Green"){
+                    j1_green ++;
+                }else if(popped == "Blue"){
+                    j1_blue ++;
+                }else if(popped == "White"){
+                    j1_white ++;
+                }
+
+                if(popped1 == "Yellow"){
+                    j2_yellow ++;
+                }else if(popped1 == "Black"){
+                    j2_black ++;
+                }else if(popped1 == "Red"){
+                    j2_red ++;
+                }else if(popped1 == "Green"){
+                    j2_green ++;
+                }else if(popped1 == "Blue"){
+                    j2_blue ++;
+                }else if(popped1 == "White"){
+                    j2_white ++;
+                }
+                nb++;
+                player1.unshift(popped );
+                player2.unshift(popped1);
+            }
+            if( j1_black == 6 || j1_yellow ==6 || j1_green ==6 || j1_blue == 6 ||  j1_red == 6 || j1_white ==6){
+                return 1;
+
+            }else if(j2_black == 6 || j2_yellow ==6 || j2_green ==6 || j2_blue == 6 ||  j2_red == 6 || j2_white ==6) {
+                return 2;
+            }
+        }
+        return 0;
+    };
+
+    this.change_player = function(){
+        if(player ===1){
+            player= 2;
+        }else{
+            player= 1;
+        }
+        return player;
+    } ;
 };

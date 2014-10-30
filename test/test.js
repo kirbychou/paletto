@@ -122,7 +122,145 @@ PalettoTestCase.prototype.testStory5= function(){
 };
 
 PalettoTestCase.prototype.testStory6= function(){
+    var test = new Engine();
+    test.initialisation();
 
+    var column= "A";
+    var line =1;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "B";
+    var line =1;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "E";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =5;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "A";
+    var line =2;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "A";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "A";
+    var line =3;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "A";
+    var line =5;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =4;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =1;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "C";
+    var line =1;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "E";
+    var line =1;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =3;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "D";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "A";
+    var line =4;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "D";
+    var line =3;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "F";
+    var line =2;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "B";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "B";
+    var line =3;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "E";
+    var line =2;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "E";
+    var line =5;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+
+    var player = test.get_player();
+    assertNotEquals(test.change_player(),player);
+
+    var column= "B";
+    var line =4;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "C";
+    var line =6;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "D";
+    var line =5;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),0);
+    var column= "E";
+    var line =3;
+    assertEquals(test.remove_piece(line,column,test.get_player()),true);
+    assertEquals(test.win(),1);
 };
 
 
