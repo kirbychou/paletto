@@ -74,6 +74,9 @@ var Engine = function () {
             if(this.remove_corner(line, column) == 0){
                 this.add_corner(line, column);
             }
+         //   this.add_corner(line, column);
+         //   this.remove_corner(line, column);
+
         }
         return done;
     };
@@ -161,20 +164,22 @@ var Engine = function () {
         var temp;
         var popped;
         if(line !=5 && line != 0 ) {
-            if (this.neighbor(line, column) == 1) {
-                if (this.neighbor(line, column)) {
-                    remove = 1;
-                    column = this.letter(column);
-                     nb = 0;
-                    while (nb < corner.length) {
-                         popped = corner.pop();
-                        temp = column;
-                        temp = temp + (line + 1);
-                        // alert("temp " + temp + "popped" + popped);
-                        if (popped != temp) {
-                            corner.unshift(popped);
+            if (column != 0 && column != 5) {
+                if (this.neighbor(line, column) == 1) {
+                    if (this.neighbor(line, column)) {
+                        remove = 1;
+                        column = this.letter(column);
+                        nb = 0;
+                        while (nb < corner.length) {
+                            popped = corner.pop();
+                            temp = column;
+                            temp = temp + (line + 1);
+                            // alert("temp " + temp + "popped" + popped);
+                            if (popped != temp) {
+                                corner.unshift(popped);
+                            }
+                            nb++;
                         }
-                        nb++;
                     }
                 }
             }
