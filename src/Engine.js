@@ -1,12 +1,11 @@
-'use strict';
-
-var Engine;
-Engine = function () {
+var Engine = function () {
 
 // private attributes and methods
     var board = new Array(6);
     var player1 = new Array(36);
     var player2 = new Array(36);
+    var corner  = new Array(0);
+    var corner_color = new Array(0);
     var line, column;
     for (line = 0; line < 6; line = line + 1) {
         board[line] = new Array(6);
@@ -23,19 +22,19 @@ Engine = function () {
         return player;
     };
 
+
     this.initialisation = function(){
        this.initialisation_player();
         this.initialisation_board();
     };
+
     this.initialisation_player = function(){
         player = 1;
         piece_player1 = 0;
         piece_player2 = 0;
+        corner.push("A6","A1","F1","F6");
     };
 
-    this.code_ascii = function (line) {
-        return line.charCodeAt(0) - 65;
-    };
     this.piece_number_player = function(player){
         if(player == 1){
             return piece_player1;
@@ -44,6 +43,7 @@ Engine = function () {
         }
         return 0;
     };
+
     this.get_piece_tray = function(){
         var total = 0 ;
         for(line=0; line<6; line = line +1){
@@ -56,13 +56,13 @@ Engine = function () {
         return total;
     };
 
-    this.remove_piece= function (line, column, player){
+    this.remove_piece = function (line, column, player){
         var done = false;
-        line = this.code_ascii(line);
-        if(board[line][column -1] != -1 ){
+        column = this.code_ascii(column);
+        if(board[line-1][column] != -1 ){
             done = true;
-            var piece = board[line][column -1];
-            board[line][column -1] = -1;
+            var piece = board[line-1][column];
+            board[line-1][column] = -1;
             if(player == 1){
                 player1[piece_player1]= piece;
                 piece_player1 ++;
@@ -71,8 +71,15 @@ Engine = function () {
                 player2[piece_player2]= piece;
                 piece_player2 ++;
             }
+         //   this.add_corner(line, column);
+            this.remove_corner(line, column);
+
         }
         return done;
+    };
+
+    this.code_ascii = function (column) {
+        return column.charCodeAt(0) - 65;
     };
 
     this.check_length_board = function () {
@@ -141,5 +148,186 @@ Engine = function () {
         } while (line < 5);
         return juxtaposition;
     };
+
+
+    this.letter = function(column){
+        column = column +65;
+        column = String.fromCharCode(column);
+        return column;
+    };
+    this.remove_corner = function(line, column){
+        column = this.letter(column);
+        var nb =0;
+        var temp;
+        while(nb < corner.length) {
+            var popped = corner.pop();
+             temp = column;
+             temp = temp + (line + 1);
+           // alert("temp " + temp + "popped" + popped);
+            if (popped != temp) {
+                corner.unshift(popped);
+            }
+            nb++;
+        }
+    };
+    this.insertion= function(l, col , temp){
+        if(board[l][col] != -1) {
+            corner.unshift(temp);
+        }
+    };
+    this.add_corner= function(line, column){
+        var col;
+        var l;
+        var temp;
+        if(line !=5 && line != 0 ){
+            if(column != 0 && column != 5){
+                col = this.letter(column -1);
+                l =line +1 ;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+                col =  this.letter(column+1);
+                l = line +1 ;
+                 temp = col;
+                 temp = temp + l ;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column);
+                l = line + 2;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column);
+                l = line;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }
+        }else if(line ==0){
+            if(column ==0 ){
+                col = this.letter(column+1);
+                 l =line +1;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column);
+                l =line +2;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }else if(column == 5){
+                col = this.letter(column-1);
+                l =line +1;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column);
+                l =line +2;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }else{
+                col = this.letter(column+1);
+                l =line +1;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column-1);
+                l =line +1;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column);
+                l =line+2;
+                 temp = col;
+                 temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }
+
+        }else if(line == 5){
+            if(column ==0){
+                col = this.letter(column);
+                l =line ;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column +1);
+                l =line +1;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }else if(column == 5){
+                col = this.letter(column);
+                l =line;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column-1);
+                l =line+1;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+            }else{
+                col = this.letter(column);
+                l =line;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column-1);
+                l =line+1;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+
+                col = this.letter(column+1);
+                l =line+1;
+                temp = col;
+                temp = temp + l;
+                this.insertion(line,column,temp);
+            }
+
+        }
+    };
+
+    this.choice = function(){
+        var popped;
+        var size = corner.length ;
+        var nb = 0;
+        var color = "";
+
+        while(nb < size){
+            popped = corner.pop();
+            var temp_col = this.code_ascii(popped);
+            var temp_line = (popped.substr(1,1))-1;
+           // alert(popped + " " + temp_line+ " " + temp_col +" board[temp_line][temp_col] " + board[temp_line][temp_col] );
+            corner_color.push(board[temp_line][temp_col]);
+            corner.unshift(popped);
+            nb++;
+        }
+         nb = 0;
+        while(nb <size){
+            popped = corner_color.pop();
+            color = color + popped + " ";
+            corner_color.unshift(popped);
+            nb++;
+        }
+      //  alert(color);
+        return color; // retourne toutes les couleurs possibles.
+    };
 // public methods
+
 };
